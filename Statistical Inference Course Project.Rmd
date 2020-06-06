@@ -9,22 +9,30 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Part 1: Simulation Exercise Instructions
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Set the parameter 'lambda'
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r }
+set.seed(1)
+lambda = 0.2
+hist(rexp(40, lambda))
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r }
+mns = NULL
+for (i in 1 : 1000) mns = c(mns, mean(rexp(40, lambda)))
+hist(mns)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r }
+mns = NULL
+for (i in 1 : 1000) mns = c(mns, var(rexp(40, lambda)))
+hist(mns)
+```
+
+## Part 2: Basic Inferential Data Analysis Instructions
+
+```{r }
+
+```
