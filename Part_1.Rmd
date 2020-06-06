@@ -1,5 +1,5 @@
 ---
-title: "Statistical Inference Course Project"
+title: "Part 1: Simulation Exercise Instructions"
 author: "Kiattisak Chaisomboon"
 date: "6/6/2563"
 output: pdf_document
@@ -9,7 +9,9 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Part 1: Simulation Exercise Instructions
+## Overview
+
+## Simulations
 
 Set the parameter 'lambda'
 
@@ -19,11 +21,15 @@ lambda = 0.2
 hist(rexp(40, lambda))
 ```
 
+## Sample Mean versus Theoretical Mean
+
 ```{r }
 mns = NULL
 for (i in 1 : 1000) mns = c(mns, mean(rexp(40, lambda)))
 hist(mns)
 ```
+
+## Sample Variance versus Theoretical Variance
 
 ```{r }
 mns = NULL
@@ -31,9 +37,5 @@ for (i in 1 : 1000) mns = c(mns, var(rexp(40, lambda)))
 hist(mns)
 ```
 
-## Part 2: Basic Inferential Data Analysis Instructions
+## Distribution
 
-```{r }
-tg <- ToothGrowth
-summary(ToothGrowth)
-```
