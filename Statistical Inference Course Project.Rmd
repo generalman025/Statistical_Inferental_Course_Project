@@ -34,5 +34,6 @@ hist(mns)
 ## Part 2: Basic Inferential Data Analysis Instructions
 
 ```{r }
-
+tg <- ToothGrowth
+summary(ToothGrowth)
 ```
