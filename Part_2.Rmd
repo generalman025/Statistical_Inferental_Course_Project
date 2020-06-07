@@ -1,7 +1,7 @@
 ---
 title: 'Part 2: Basic Inferential Data Analysis Instructions'
 author: "Kiattisak Chaisomboon"
-date: "7/6/2563"
+date: "7/6/2020"
 output: pdf_document
 ---
 

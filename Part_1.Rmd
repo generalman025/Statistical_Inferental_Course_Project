@@ -1,7 +1,7 @@
 ---
 title: "Part 1: Simulation Exercise Instructions"
 author: "Kiattisak Chaisomboon"
-date: "6/6/2563"
+date: "6/6/2020"
 output: pdf_document
 ---
 
