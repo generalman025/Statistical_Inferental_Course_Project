@@ -1,7 +1,7 @@
 ---
-title: 'Part 2: Basic Inferential Data Analysis Instructions'
+title: 'The ToothGrowth data Analysis'
 author: "Kiattisak Chaisomboon"
-date: "7/6/2020"
+date: "07/06/2020"
 output: pdf_document
 ---
 
@@ -9,10 +9,54 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Part 2: Basic Inferential Data Analysis Instructions
+## Overview
 
+We are going to analyze the ToothGrowth data in the R datasets package. We will study the change of the tooth length in pigs each type of supplement and changing dose quantity.
+
+## Exploratory Data Analysis
+
+First, loading dataset and check its dimension
 ```{r }
+library(dplyr)
 tg <- ToothGrowth
 dim(tg)
-summary(ToothGrowth)
 ```
+The dataset contains 60 rows and 3 columns
+
+Next, summarizing some basic data
+```{r fig.height=3}
+summary(ToothGrowth)
+par(mfrow=c(1,2))
+boxplot(len ~ supp, data=tg)
+boxplot(len ~ dose, data=tg)
+```
+It's seem giving orange joice is better than an acid and give more dose is better.
+
+## Inferential Data Analysis
+
+```{r }
+OJ <- subset(tg, supp == 'OJ')
+VC <- subset(tg, supp == 'VC')
+```
+
+OJ greater than VC
+```{r }
+t.test(OJ$len, VC$len, alternative='greater', paired = FALSE, var.equal = FALSE)
+```
+
+```{r }
+half.dose <- subset(tg, dose == 0.5)
+one.dose <- subset(tg, dose == 1)
+two.dose <- subset(tg, dose == 2)
+```
+
+One dose effect greater than Half dose
+```{r }
+t.test(one.dose$len, half.dose$len, alternative='greater', paired=FALSE, var.equal=FALSE)
+```
+
+Two dose effect greater than One dose
+```{r }
+t.test(two.dose$len, one.dose$len, alternative='greater', paired=FALSE, var.equal=FALSE)
+```
+

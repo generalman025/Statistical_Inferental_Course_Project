@@ -1,7 +1,7 @@
 ---
-title: "Part 1: Simulation Exercise Instructions"
+title: "Investigating the exponential distribution in R"
 author: "Kiattisak Chaisomboon"
-date: "6/6/2020"
+date: "07/06/2020"
 output: pdf_document
 ---
 
@@ -11,51 +11,87 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
+
 ## Simulations
 
-Set the parameter 'lambda'
 
 ```{r }
-set.seed(1)
+library(ggplot2)
+
+set.seed(23)
+sim <- 1000
+n <- 40
 lambda = 0.2
-hist(rexp(40, lambda))
+
+mns = NULL
+vrs = NULL
+for (i in 1 : sim) {
+  rnd = rexp(n, lambda)
+  mns = c(mns, mean(rnd))
+  vrs = c(vrs, var(rnd))
+}
 ```
 
 ## Sample Mean versus Theoretical Mean
 
 ```{r }
-mns = NULL
-for (i in 1 : 1000) mns = c(mns, mean(rexp(40, lambda)))
-hist(mns)
+sample.mean <- mean(mns)
+sample.mean
 ```
 
 ```{r }
-n <- 1000
-means <- cumsum(rnorm(n))/(1:n)
-library(ggplot2)
-g <- ggplot(data.frame(x = 1:n, y = means), aes(x = x, y = y))
-g <- g + geom_hline(yintercept = 0) + geom_line(size = 2)
-g <- g + labs(x = "Number of obs", y = "Cumulative mean")
-g
+theoritical.mean <- 1/lambda
+theoritical.mean
+```
+
+```{r }
+dfm <- data.frame(mns)
+ggplot(dfm, aes(mns)) + 
+  geom_histogram(bins=30, colour="black", fill="white") +
+  geom_vline(aes(xintercept = sample.mean, colour='Sample mean')) + 
+  geom_vline(aes(xintercept = theoritical.mean, colour='Theoritical mean')) + 
+  scale_color_manual(name="", values = c('Sample mean' = 'red', 
+                                    'Theoritical mean' = 'blue')) +
+  xlab("Mean") + ylab("Density")
 ```
 
 ## Sample Variance versus Theoretical Variance
 
 ```{r }
-mns = NULL
-for (i in 1 : 1000) mns = c(mns, var(rexp(40, lambda)))
-hist(mns)
+sample.variance <- mean(vrs)
+sample.variance
 ```
 
 ```{r }
-n <- 1000
-vars <- cumsum(var(rnorm(n)))/(1:n)
-library(ggplot2)
-g <- ggplot(data.frame(x = 1:n, y = vars), aes(x = x, y = y))
-g <- g + geom_hline(yintercept = 0) + geom_line(size = 2)
-g <- g + labs(x = "Number of obs", y = "Cumulative variance")
-g
+theoritical.variance <- (1/lambda)^2
+theoritical.variance
+```
+
+```{r }
+dfv <- data.frame(vrs)
+ggplot(dfv, aes(vrs)) + 
+  geom_histogram(bins=30, colour="black", fill="white") +
+  geom_vline(aes(xintercept = sample.variance, colour='Sample variance')) + 
+  geom_vline(aes(xintercept = theoritical.variance, colour='Theoritical variance')) + 
+  scale_color_manual(name="", values = c('Sample variance' = 'red', 
+                                    'Theoritical variance' = 'blue')) +
+  xlab("Variance") + ylab("Density")
 ```
 
 ## Distribution
 
+define Fx = $\frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}}$ where n is large
+
+```{r }
+fx <- ((mns - sample.mean)/(sample.variance / sqrt(sim)))
+
+df <- data.frame(fx)
+ggplot(df, aes(x=fx)) +
+  geom_histogram(aes(y=..density..), bins=30, colour="black", fill="white") +
+  geom_density(aes(colour='Sampling Distribution')) + 
+  geom_line(stat = "function", fun = "dnorm", args = list(mean = 0, sd = 1),
+            aes(colour='Standard Normal Distribution')) +
+  scale_color_manual(name="", values = c('Sampling Distribution' = 'red', 
+                                    'Standard Normal Distribution' = 'blue')) + 
+  xlab("Fx") + ylab("Density")
+```
