@@ -44,7 +44,7 @@ theoritical.mean <- 1/lambda
 theoritical.mean
 ```
 
-```{r }
+```{r fig.height=2}
 dfm <- data.frame(mns)
 ggplot(dfm, aes(mns)) + 
   geom_histogram(bins=30, colour="black", fill="white") +
@@ -67,7 +67,7 @@ theoritical.variance <- (1/lambda)^2
 theoritical.variance
 ```
 
-```{r }
+```{r fig.height=2}
 dfv <- data.frame(vrs)
 ggplot(dfv, aes(vrs)) + 
   geom_histogram(bins=30, colour="black", fill="white") +
@@ -82,7 +82,7 @@ ggplot(dfv, aes(vrs)) +
 
 define Fx = $\frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}}$ where n is large
 
-```{r }
+```{r fig.height=3}
 fx <- ((mns - sample.mean)/(sample.variance / sqrt(sim)))
 
 df <- data.frame(fx)
