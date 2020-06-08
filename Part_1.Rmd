@@ -11,10 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
+We will investigate the exponential distribution in R and compare it with the Central Limit Theorem. The exponential distribution can be simulated in R with "rexp(n, $\lambda$)" where n is number of observations and $\lambda$ is the rate parameter.
 
 ## Simulations
 
-
+Creating the list of sample mean (named 'mns') and the list of sample variance (named 'vrs') from 1000 samples which simulated using the function of the exponential distribution "rexp(n, $\lambda$)" where n = 40 and $\lambda$ = 0.2
 ```{r }
 library(ggplot2)
 
@@ -34,16 +35,19 @@ for (i in 1 : sim) {
 
 ## Sample Mean versus Theoretical Mean
 
+Calculating the sample mean.
 ```{r }
 sample.mean <- mean(mns)
 sample.mean
 ```
-
+\
+The mean of exponential distribution is $1/\lambda$, can be used to calculate the theoritical mean as the follow:
 ```{r }
 theoritical.mean <- 1/lambda
 theoritical.mean
 ```
-
+\
+The sample mean (5.01425) is very close to the theoritical mean (5), as shown in the following figure: 
 ```{r fig.height=2}
 dfm <- data.frame(mns)
 ggplot(dfm, aes(mns)) + 
@@ -57,16 +61,19 @@ ggplot(dfm, aes(mns)) +
 
 ## Sample Variance versus Theoretical Variance
 
+Calculating the sample variance.
 ```{r }
 sample.variance <- mean(vrs)
 sample.variance
 ```
-
+\
+The variance of exponential distribution is $(1/\lambda)^2$, can be used to calculate the theoritical variance as the follow:
 ```{r }
 theoritical.variance <- (1/lambda)^2
 theoritical.variance
 ```
-
+\
+The sample variance (24.92895) is very close to the theoritical variance (25), as shown in the following figure: 
 ```{r fig.height=2}
 dfv <- data.frame(vrs)
 ggplot(dfv, aes(vrs)) + 
@@ -80,18 +87,18 @@ ggplot(dfv, aes(vrs)) +
 
 ## Distribution
 
-define Fx = $\frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}}$ where n is large
+The CLT states that the distribution of averages of iid variables (properly normalized) becomes that of a standard normal as the sample size increases. The result is that $Z = \frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}}$ has a distribution like that of a standard normal for large n.
 
 ```{r fig.height=3}
-fx <- ((mns - sample.mean)/(sample.variance / sqrt(sim)))
+z <- ((mns - sample.mean)/(sample.variance / sqrt(sim)))
 
-df <- data.frame(fx)
-ggplot(df, aes(x=fx)) +
+df <- data.frame(z)
+ggplot(df, aes(x=z)) +
   geom_histogram(aes(y=..density..), bins=30, colour="black", fill="white") +
   geom_density(aes(colour='Sampling Distribution')) + 
   geom_line(stat = "function", fun = "dnorm", args = list(mean = 0, sd = 1),
             aes(colour='Standard Normal Distribution')) +
   scale_color_manual(name="", values = c('Sampling Distribution' = 'red', 
                                     'Standard Normal Distribution' = 'blue')) + 
-  xlab("Fx") + ylab("Density")
+  xlab("Z") + ylab("Density")
 ```
