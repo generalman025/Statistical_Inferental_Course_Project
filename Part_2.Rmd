@@ -15,7 +15,7 @@ We are going to analyze the ToothGrowth data in the R datasets package. We will 
 
 ## Exploratory Data Analysis
 
-First, loading dataset and check its dimension
+First, loading the dataset and check its dimension
 ```{r }
 library(dplyr)
 tg <- ToothGrowth
@@ -23,23 +23,24 @@ dim(tg)
 ```
 The dataset contains 60 rows and 3 columns
 
-Next, summarizing some basic data
+Next, summarizing the basic data from the dataset
 ```{r fig.height=3}
 summary(ToothGrowth)
 par(mfrow=c(1,2))
 boxplot(len ~ supp, data=tg)
 boxplot(len ~ dose, data=tg)
 ```
-It's seem giving orange joice is better than an acid and give more dose is better.
+It's seem giving orange joice is better than an acid and give more dose is better
 
 ## Inferential Data Analysis
 
+Create variables each type of supplement
 ```{r }
 OJ <- subset(tg, supp == 'OJ')
 VC <- subset(tg, supp == 'VC')
 ```
 
-OJ greater than VC
+Next,  
 ```{r }
 t.test(OJ$len, VC$len, alternative='greater', paired = FALSE, var.equal = FALSE)
 ```
